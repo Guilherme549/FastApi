@@ -1,10 +1,38 @@
-import requests
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+import datetime
 
 
-retorno = requests.post(
-    "http://127.0.0.1:8000/usuario",
-    params={"id": 5, "nome": "ze", "senha": "minhasenha5"},
-)
+USUARIO = "postgres"
+SENHA = "sgbd157"
+HOST = "localhost"
+BANCO = "aulafastapi"
+PORT = "5432"
+
+CONN = f"postgresql://{USUARIO}:{SENHA}@{HOST}:{PORT}/{BANCO}"
 
 
-print(retorno.json())
+engine = create_engine(CONN, echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
+Base = declarative_base()
+
+
+class Pessoa(Base):
+    __tablename__ = "Pessoa"
+    id = Column(Integer, primary_key=True)
+    nome = Column(String(50))
+    usuario = Column(String(20))
+    senha = Column(String(10))
+
+
+class Tokens(Base):
+    __tablename__ = "Tokens"
+    id = Column(Integer, primary_key=True)
+    id_pessoa = Column(Integer, ForeignKey("Pessoa.id"))
+    token = Column(String(100))
+    data = Column(DateTime, default=datetime.datetime.utcnow())
+
+
+Base.metadata.create_all(engine)
