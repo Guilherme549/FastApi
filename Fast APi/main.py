@@ -46,4 +46,4 @@ def login(usuario: str, senha: str):
                 pessoaExiste[0].token = token
 
             session.commit()
-        return token
+        return {"status": "Usuario logado com suceso", "token": token}
