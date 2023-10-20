@@ -4,11 +4,11 @@ from sqlalchemy.orm import sessionmaker
 import datetime
 
 
-USUARIO = "postgres"
-SENHA = "sgbd157"
-HOST = "localhost"
-BANCO = "aulafastapi"
-PORT = "5432"
+USUARIO = ""
+SENHA = ""
+HOST = ""
+BANCO = ""
+PORT = ""
 
 CONN = f"postgresql://{USUARIO}:{SENHA}@{HOST}:{PORT}/{BANCO}"
 
